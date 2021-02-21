@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.franco.rxjavainjava"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    testImplementation 'junit:junit:4.+'
+
+    def retrofitVersion = "2.5.0"
+    def rxjava_version = '2.2.7'
+    def rxandroid_version = '2.1.1'
+    def lifecycle_version = "1.1.1"
+
+// ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+// Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    //This will allow us to convert Observables (or Flowables) into LiveData objects.
+    implementation "android.arch.lifecycle:reactivestreams:1.1.1"
+
+
+// RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+// RxAndroid
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+// RxJava Call Adapter
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+
+    implementation("io.reactivex.rxjava2:rxkotlin:2.0.3" )
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
