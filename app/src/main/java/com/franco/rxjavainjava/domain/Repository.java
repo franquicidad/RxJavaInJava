@@ -13,7 +13,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 

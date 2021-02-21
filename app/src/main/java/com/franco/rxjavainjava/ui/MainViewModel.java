@@ -7,7 +7,7 @@ import com.franco.rxjavainjava.domain.Repository;
 
 import java.util.concurrent.Future;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 
 public class MainViewModel extends ViewModel {

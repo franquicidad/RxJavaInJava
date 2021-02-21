@@ -14,7 +14,6 @@ import com.franco.rxjavainjava.domain.Model.Comment;
 import com.franco.rxjavainjava.domain.Model.Post;
 import com.franco.rxjavainjava.domain.Model.Task;
 import com.franco.rxjavainjava.network.ServiceGenerator;
-import com.franco.rxjavainjava.network.ServiceGenerator2;
 import com.franco.rxjavainjava.util.DataSource;
 
 import org.reactivestreams.Subscription;
@@ -25,23 +24,38 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.BackpressureStrategy;
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.FlowableSubscriber;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.core.ObservableSource;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Function;
-import io.reactivex.rxjava3.functions.Predicate;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+//import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+//import io.reactivex.rxjava3.annotations.NonNull;
+//import io.reactivex.rxjava3.core.BackpressureStrategy;
+//import io.reactivex.rxjava3.core.Flowable;
+//import io.reactivex.rxjava3.core.FlowableSubscriber;
+//import io.reactivex.rxjava3.core.Observable;
+//import io.reactivex.rxjava3.core.ObservableEmitter;
+//import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+//import io.reactivex.rxjava3.core.ObservableSource;
+//import io.reactivex.rxjava3.core.Observer;
+//import io.reactivex.rxjava3.disposables.CompositeDisposable;
+//import io.reactivex.rxjava3.disposables.Disposable;
+//import io.reactivex.rxjava3.functions.Function;
+//import io.reactivex.rxjava3.functions.Predicate;
+//import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
@@ -99,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())// designate worker thread (background)
                 .filter(new Predicate<Task>() {
                     @Override
-                    public boolean test(Task task) throws Throwable {
+                    public boolean test(Task task) {
                         Log.d(TAG,"onNext: "+Thread.currentThread().getName());
                         try {
                             Thread.sleep(1000);// Since this iterates 5 times and you run it on taskObservable it will block the UI but here is in IO
@@ -191,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         Observable<Task> garbageTask = Observable
                 .create(new ObservableOnSubscribe<Task>() {
                     @Override
-                    public void subscribe(@NonNull ObservableEmitter<Task> emitter) throws Throwable {
+                    public void subscribe(@NonNull ObservableEmitter<Task> emitter) {
 
                         /**
                          * For a single object
@@ -346,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                  .subscribeOn(Schedulers.io())
                  .map(new Function<Integer, Task>() {
                      @Override
-                     public Task apply(Integer integer) throws Throwable {
+                     public Task apply(Integer integer)  {
                          return null;
                      }
                  });
@@ -512,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Observable<Post> getPostsObservable(){
-        return ServiceGenerator2.getRequestApi2()
+        return ServiceGenerator.getRequestApi()
                 .getPosts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -560,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Observable<Post> getCommentsObservable(final Post post){
-        return ServiceGenerator2.getRequestApi2()
+        return ServiceGenerator.getRequestApi()
                 .getComments(post.getId())
                 .map(new Function<List<Comment>, Post>() {
                     @Override
